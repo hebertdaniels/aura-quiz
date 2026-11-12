@@ -26,8 +26,16 @@ export function SplashScreen({ aoTerminar }) {
       'data-foco': true,
       onclick: terminar,
     },
-    el('div', { class: 'orbe', 'aria-hidden': 'true' }),
-    el('h1', { class: 'splash__titulo' }, 'Aura Quiz'),
+    // Símbolo da marca (o infinito). O nome fica em texto para se adaptar ao tema claro/escuro.
+    el('img', {
+      class: 'simbolo',
+      src: 'assets/brand/simbolo.png',
+      alt: '',
+      width: 320,
+      height: 180,
+      decoding: 'async',
+    }),
+    el('h1', { class: 'splash__titulo' }, 'Aura ', el('span', { class: 'marca__quiz' }, 'Quiz')),
     el('p', { class: 'splash__subtitulo' }, 'Descubra o nível da sua aura'),
     el('span', { class: 'splash__dica' }, 'Toque para começar'),
   );

@@ -8,13 +8,14 @@
  * para os celulares baixarem os arquivos atualizados.
  */
 
-const VERSAO = 'aura-quiz-v1';
+const VERSAO = 'aura-quiz-v2';
 
 const ARQUIVOS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/icons/icon.svg',
+  './assets/brand/simbolo.png',
+  './assets/icons/favicon-64.png',
   './assets/icons/icon-180.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
@@ -34,6 +35,7 @@ const ARQUIVOS = [
   './src/components/NameInput.js',
   './src/components/QuestionCard.js',
   './src/components/ResultScreen.js',
+  './src/components/imagemResultado.js',
   './src/components/ThemeToggle.js',
 ];
 

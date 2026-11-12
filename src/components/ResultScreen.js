@@ -6,6 +6,7 @@
  */
 
 import { el, prefereMenosAnimacao } from './dom.js';
+import { gerarImagemResultado } from './imagemResultado.js';
 
 const DURACAO_CONTAGEM_MS = 1400;
 
@@ -18,6 +19,14 @@ export function ResultScreen({ nome, pontos, faixa, limites, aoJogarDeNovo }) {
   const posicao = ((pontos - limites.minimo) / (limites.maximo - limites.minimo)) * 100;
 
   const avisoCompartilhar = el('p', { class: 'texto-suave texto-pequeno centro', role: 'status' });
+
+  // A imagem já começa a ser feita AGORA, antes do toque no botão.
+  // Motivo: o iPhone só abre a janela de compartilhar se ela for chamada
+  // logo em seguida ao toque, sem esperas no meio.
+  let imagemPronta = null;
+  const imagem = gerarImagemResultado({ nome, pontos, faixa, limites })
+    .then((arquivo) => (imagemPronta = arquivo))
+    .catch(() => null);
 
   const elemento = el(
     'section',
@@ -54,7 +63,11 @@ export function ResultScreen({ nome, pontos, faixa, limites, aoJogarDeNovo }) {
       el('button', { type: 'button', class: 'btn btn--lg', onclick: aoJogarDeNovo }, 'Jogar de novo'),
       el(
         'button',
-        { type: 'button', class: 'btn btn--outline btn--lg', onclick: () => compartilhar(nome, pontos, faixa, avisoCompartilhar) },
+        {
+          type: 'button',
+          class: 'btn btn--outline btn--lg',
+          onclick: async () => compartilhar(nome, pontos, faixa, imagemPronta ?? (await imagem), avisoCompartilhar),
+        },
         'Compartilhar',
       ),
     ),
@@ -96,16 +109,48 @@ function animarContagem(alvo, pontosFinais) {
   };
 }
 
-async function compartilhar(nome, pontos, faixa, aviso) {
-  const texto = `${faixa.emoji} ${nome} tirou ${comSinal(pontos)} no Aura Quiz: ${faixa.titulo}! Descubra a sua:`;
+/**
+ * Compartilha a IMAGEM do resultado pela janela nativa do aparelho
+ * (celular ou computador). Se o aparelho não tiver essa janela,
+ * a imagem é baixada para a pessoa postar onde quiser.
+ */
+async function compartilhar(nome, pontos, faixa, arquivo, aviso) {
+  aviso.textContent = '';
   const url = window.location.href.split('#')[0];
+  // O link vai dentro do texto: alguns sistemas trocam a imagem pelo link quando ele vai separado.
+  const texto = `${faixa.emoji} ${nome} tirou ${comSinal(pontos)} no Aura Quiz: ${faixa.titulo}! Descubra a sua: ${url}`;
+
+  // Plano B: se a imagem falhou, compartilha só o texto com o link (como antes)
+  if (!arquivo) return compartilharTexto(texto, aviso);
+
+  const podeEnviarImagem = navigator.canShare?.({ files: [arquivo] }) ?? false;
+  if (!podeEnviarImagem) return baixarImagem(arquivo, aviso);
 
   try {
+    await navigator.share({ files: [arquivo], title: 'Aura Quiz', text: texto });
+  } catch (erro) {
+    if (erro?.name === 'AbortError') return; // a pessoa fechou a janela: tudo bem
+    baixarImagem(arquivo, aviso);
+  }
+}
+
+function baixarImagem(arquivo, aviso) {
+  const endereco = URL.createObjectURL(arquivo);
+  const link = el('a', { href: endereco, download: arquivo.name });
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(endereco), 10_000);
+  aviso.textContent = 'Imagem salva! Agora é só postar nos Stories ou mandar para os amigos 📸';
+}
+
+async function compartilharTexto(texto, aviso) {
+  try {
     if (navigator.share) {
-      await navigator.share({ title: 'Aura Quiz', text: texto, url });
+      await navigator.share({ title: 'Aura Quiz', text: texto });
       return;
     }
-    await navigator.clipboard.writeText(`${texto} ${url}`);
+    await navigator.clipboard.writeText(texto);
     aviso.textContent = 'Resultado copiado! É só colar onde quiser.';
   } catch (erro) {
     if (erro?.name !== 'AbortError') {

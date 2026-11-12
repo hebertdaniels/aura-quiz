@@ -65,7 +65,9 @@ aura-quiz/
 ├── manifest.webmanifest    ← "carteira de identidade" do app (nome, ícone, cores)
 ├── sw.js                   ← faz o app funcionar sem internet
 ├── iniciar.bat             ← liga o servidor local
-├── assets/icons/           ← ícones do app
+├── assets/
+│   ├── brand/              ← logotipo e símbolo do infinito
+│   └── icons/              ← ícones do app (tela inicial do celular)
 ├── testes/                 ← testes automáticos
 └── src/
     ├── main.js             ← o maestro: liga todas as partes
@@ -89,7 +91,20 @@ empresas de tecnologia. Ele é baseado em **design tokens**: em vez de espalhar
 cores pelo código, todas as decisões de design ficam em variáveis no arquivo
 `src/styles/tokens.css`.
 
-Quer mudar a cor da aura do app inteiro? Mude **uma linha**: `--aura`.
+### Identidade visual
+
+| Cor | Código | Onde aparece |
+|---|---|---|
+| 🟣 Roxo Aura | `#8B5CF6` | Cor principal, campo de nome, foco |
+| 🩷 Rosa Elétrico | `#EC4899` | Destaque e diversão: "Quiz" no logo, pergunta bônus |
+| 🩵 Azul Cósmico | `#06B6D4` | Cor secundária |
+| 🌈 Gradiente Aura | roxo → rosa → azul | Símbolo do infinito, botões, barra de progresso |
+| ⬛ Fundo | `#0F0E17` | Fundo do tema escuro |
+| ◼️ Card | `#1E1B29` | Cartões do tema escuro |
+| ⬜ Texto | `#FFFFFF` | Texto do tema escuro |
+
+Quer mudar uma cor da marca no app inteiro? Mude **uma linha** em `tokens.css`
+(`--roxo-aura`, `--rosa-eletrico` ou `--azul-cosmico`).
 
 ## ✏️ Quero mudar...
 

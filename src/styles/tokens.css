@@ -6,43 +6,62 @@
  * Os componentes NUNCA usam cores soltas: sempre usam um token.
  * Assim, para mudar o visual do app inteiro, basta mudar aqui.
  *
- * Os nomes seguem o padrão do shadcn/ui (paleta "zinc").
+ * Os nomes seguem o padrão do shadcn/ui; os valores vêm da
+ * Identidade Visual do Aura Quiz:
+ *
+ *   Roxo Aura      #8B5CF6  → cor principal
+ *   Rosa Elétrico  #EC4899  → destaque / divertido
+ *   Azul Cósmico   #06B6D4  → secundária
+ *   Gradiente Aura (infinito): roxo → rosa → azul
+ *   Fundo #0F0E17 · Card #1E1B29 · Texto #FFFFFF
  */
 
 :root {
-  color-scheme: light;
+  /* ---------- Cores da marca (iguais nos dois temas) ---------- */
+  --roxo-aura: #8b5cf6;
+  --rosa-eletrico: #ec4899;
+  --azul-cosmico: #06b6d4;
 
-  /* Cores base */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
+  --gradiente-aura: linear-gradient(90deg, var(--roxo-aura), var(--rosa-eletrico) 55%, var(--azul-cosmico));
+  /* Versão do botão principal: só roxo → rosa, como no guia */
+  --gradiente-botao: linear-gradient(90deg, var(--roxo-aura), var(--rosa-eletrico));
 
   /* Cor de identidade do Aura Quiz (o "brilho") */
-  --aura: oklch(0.606 0.25 292.717);
-  --aura-intensidade: 22%;
+  --aura: var(--roxo-aura);
+  --destaque: var(--rosa-eletrico);
+  --aura-intensidade: 18%;
 
-  /* Formas */
-  --radius: 0.625rem;
-  --radius-sm: calc(var(--radius) - 4px);
+  /* ---------- Tema claro ---------- */
+  color-scheme: light;
+  --background: #f7f6fb;
+  --foreground: #0f0e17;
+  --card: #ffffff;
+  --card-foreground: #0f0e17;
+  --primary: var(--roxo-aura);
+  --primary-foreground: #ffffff;
+  --secondary: var(--azul-cosmico);
+  --secondary-foreground: #ffffff;
+  --muted: #efedf6;
+  --muted-foreground: #5f5a72;
+  --accent: #f1ecfe;
+  --accent-foreground: #0f0e17;
+  --border: #e3e0ee;
+  --input: color-mix(in srgb, var(--roxo-aura) 45%, #e3e0ee);
+  --ring: var(--roxo-aura);
+
+  /* Formas: mais arredondado que o shadcn padrão, como no guia */
+  --radius: 0.875rem;
+  --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 6px);
 
   /* Sombras */
-  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-xs: 0 1px 2px 0 rgb(15 14 23 / 0.06);
+  --shadow-sm: 0 1px 3px 0 rgb(15 14 23 / 0.1), 0 1px 2px -1px rgb(15 14 23 / 0.1);
+  /* Brilho neon dos elementos da marca */
+  --brilho: 0 0.5rem 1.75rem -0.5rem color-mix(in srgb, var(--rosa-eletrico) 55%, transparent),
+    0 0.25rem 1.25rem -0.25rem color-mix(in srgb, var(--roxo-aura) 55%, transparent);
 
   /* Tipografia */
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -52,46 +71,37 @@
   --transicao: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Tema escuro: segue o aparelho, a não ser que a pessoa escolha "claro" */
+/* ---------- Tema escuro (o visual principal da marca) ---------- */
+/* Segue o aparelho, a não ser que a pessoa escolha "claro" */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --background: oklch(0.141 0.005 285.823);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.21 0.006 285.885);
-    --card-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.92 0.004 286.32);
-    --primary-foreground: oklch(0.21 0.006 285.885);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.274 0.006 286.033);
-    --muted-foreground: oklch(0.705 0.015 286.067);
-    --accent: oklch(0.274 0.006 286.033);
-    --accent-foreground: oklch(0.985 0 0);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.552 0.016 285.938);
-    --aura-intensidade: 32%;
+    --background: #0f0e17;
+    --foreground: #ffffff;
+    --card: #1e1b29;
+    --card-foreground: #ffffff;
+    --muted: #2a2638;
+    --muted-foreground: #a9a3bd;
+    --accent: #2a2638;
+    --accent-foreground: #ffffff;
+    --border: rgb(255 255 255 / 0.08);
+    --input: color-mix(in srgb, var(--roxo-aura) 70%, transparent);
+    --aura-intensidade: 28%;
   }
 }
 
 /* Tema escuro escolhido manualmente pelo botão */
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.92 0.004 286.32);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --aura-intensidade: 32%;
+  --background: #0f0e17;
+  --foreground: #ffffff;
+  --card: #1e1b29;
+  --card-foreground: #ffffff;
+  --muted: #2a2638;
+  --muted-foreground: #a9a3bd;
+  --accent: #2a2638;
+  --accent-foreground: #ffffff;
+  --border: rgb(255 255 255 / 0.08);
+  --input: color-mix(in srgb, var(--roxo-aura) 70%, transparent);
+  --aura-intensidade: 28%;
 }

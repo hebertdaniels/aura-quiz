@@ -16,21 +16,22 @@
   padding: 0.5rem 1rem;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
-  background-color: var(--primary);
+  /* Botão principal: Gradiente Aura (roxo → rosa) com brilho neon */
+  background: var(--gradiente-botao);
   color: var(--primary-foreground);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.25;
   cursor: pointer;
   user-select: none;
   touch-action: manipulation;
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--brilho);
   transition: background-color var(--transicao), border-color var(--transicao), box-shadow var(--transicao),
-    transform var(--transicao), opacity var(--transicao);
+    transform var(--transicao), opacity var(--transicao), filter var(--transicao);
 }
 
 .btn:hover {
-  background-color: color-mix(in oklch, var(--primary) 90%, transparent);
+  filter: brightness(1.08);
 }
 
 .btn:active {
@@ -38,36 +39,46 @@
 }
 
 .btn:focus-visible {
-  outline: none;
-  border-color: var(--ring);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+  filter: none;
+  box-shadow: none;
 }
 
+/* Contorno com borda em gradiente (roxo → rosa), como as opções do guia.
+   Truque: o fundo de dentro pinta só até a borda; o gradiente aparece só na borda. */
 .btn--outline {
-  background-color: var(--background);
+  --fundo-btn: var(--background);
+  border: 1.5px solid transparent;
+  background: linear-gradient(var(--fundo-btn), var(--fundo-btn)) padding-box, var(--gradiente-botao) border-box;
   color: var(--foreground);
-  border-color: var(--border);
+  box-shadow: none;
+}
+
+.card .btn--outline {
+  --fundo-btn: var(--card);
 }
 
 .btn--outline:hover {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+  --fundo-btn: var(--accent);
+  filter: none;
 }
 
 .btn--ghost {
-  background-color: transparent;
+  background: transparent;
   color: var(--foreground);
   box-shadow: none;
 }
 
 .btn--ghost:hover {
-  background-color: var(--accent);
+  background: var(--accent);
+  filter: none;
 }
 
 .btn--lg {
@@ -116,11 +127,10 @@
   width: 100%;
   min-height: 3rem;
   padding: 0.5rem 0.875rem;
-  border: 1px solid var(--input);
+  border: 1.5px solid var(--input);
   border-radius: var(--radius-md);
-  background-color: transparent;
+  background-color: var(--background);
   font-size: 1rem; /* 16px ou mais evita o zoom automático no iPhone */
-  box-shadow: var(--shadow-xs);
   transition: border-color var(--transicao), box-shadow var(--transicao);
 }
 
@@ -128,10 +138,12 @@
   color: var(--muted-foreground);
 }
 
+/* Ao digitar, o campo acende com o brilho roxo da aura */
 .input:focus-visible {
   outline: none;
-  border-color: var(--ring);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+  border-color: var(--roxo-aura);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--roxo-aura) 35%, transparent),
+    0 0 1.5rem color-mix(in srgb, var(--roxo-aura) 45%, transparent);
 }
 
 /* ================= Progress ================= */
@@ -139,13 +151,14 @@
   height: 0.5rem;
   overflow: hidden;
   border-radius: 999px;
-  background-color: color-mix(in oklch, var(--primary) 15%, transparent);
+  background-color: var(--muted);
 }
 
 .progresso__barra {
   height: 100%;
   border-radius: inherit;
-  background-color: var(--primary);
+  background: var(--gradiente-aura);
+  box-shadow: 0 0 0.75rem color-mix(in srgb, var(--rosa-eletrico) 50%, transparent);
   transition: width 400ms ease-out;
 }
 
@@ -164,9 +177,11 @@
   white-space: nowrap;
 }
 
+/* Rosa Elétrico = destaque / divertido */
 .badge--bonus {
-  background-color: var(--aura);
-  color: oklch(0.985 0 0);
+  background-color: var(--destaque);
+  color: #ffffff;
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--destaque) 55%, transparent);
 }
 
 /* ================= Botão de tema ================= */
@@ -200,34 +215,34 @@
   outline: none;
 }
 
-.orbe {
-  width: clamp(7rem, 30vmin, 12rem);
-  aspect-ratio: 1;
-  margin-bottom: 1rem;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 30%,
-    oklch(0.985 0 0) 0%,
-    color-mix(in oklch, var(--aura) 70%, oklch(0.985 0 0)) 25%,
-    var(--aura) 60%,
-    color-mix(in oklch, var(--aura) 60%, black) 100%
-  );
-  box-shadow: 0 0 4rem color-mix(in oklch, var(--aura) 60%, transparent);
+/* Símbolo do infinito da marca, pulsando com brilho neon */
+.simbolo {
+  width: clamp(10rem, 48vmin, 18rem);
+  height: auto;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 1.25rem color-mix(in srgb, var(--rosa-eletrico) 55%, transparent))
+    drop-shadow(0 0 2.5rem color-mix(in srgb, var(--roxo-aura) 45%, transparent));
   animation: pulsar 2.4s ease-in-out infinite;
 }
 
 @keyframes pulsar {
   50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 6rem color-mix(in oklch, var(--aura) 80%, transparent);
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 1.75rem color-mix(in srgb, var(--rosa-eletrico) 70%, transparent))
+      drop-shadow(0 0 3.5rem color-mix(in srgb, var(--azul-cosmico) 45%, transparent));
   }
 }
 
+/* Logotipo: "Aura" na cor do texto + "Quiz" em Rosa Elétrico */
 .splash__titulo {
-  font-size: clamp(2.5rem, 9vw, 4rem);
-  font-weight: 800;
+  font-size: clamp(2.75rem, 11vw, 4.5rem);
+  font-weight: 900;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
+}
+
+.marca__quiz {
+  color: var(--rosa-eletrico);
 }
 
 .splash__subtitulo {
@@ -269,51 +284,62 @@
   white-space: normal;
 }
 
+/* Cada número de opção ganha uma cor da marca: 1 azul, 2 roxo, 3 rosa */
+.opcao {
+  --cor-tecla: var(--roxo-aura);
+}
+
+.opcao:nth-child(3n + 1) {
+  --cor-tecla: var(--azul-cosmico);
+}
+
+.opcao:nth-child(3n) {
+  --cor-tecla: var(--rosa-eletrico);
+}
+
 .opcao__tecla {
   display: inline-grid;
   place-items: center;
   flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 1px solid var(--border);
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--radius-sm);
-  background-color: var(--muted);
-  color: var(--muted-foreground);
+  background-color: color-mix(in srgb, var(--cor-tecla) 18%, transparent);
+  /* No tema claro, escurece um pouco a cor do número para dar contraste */
+  color: color-mix(in srgb, var(--cor-tecla) 75%, var(--foreground));
   font-family: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .opcao[aria-disabled='true'] {
   pointer-events: none;
 }
 
+/* Opção escolhida: acende com o gradiente da marca */
 .opcao--escolhida {
-  border-color: var(--primary);
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  border-color: transparent;
+  background: var(--gradiente-botao);
+  color: #ffffff;
+  box-shadow: var(--brilho);
   transform: scale(0.98);
 }
 
 .opcao--escolhida .opcao__tecla {
-  border-color: transparent;
-  background-color: var(--primary-foreground);
-  color: var(--primary);
+  background-color: rgb(255 255 255 / 0.22);
+  color: #ffffff;
 }
 
 .voltar {
   align-self: flex-start;
 }
 
-/* Pergunta bônus: ganha o brilho da aura */
+/* Pergunta bônus: o card ganha o brilho rosa + roxo */
 .tela--bonus .card {
-  border-color: color-mix(in oklch, var(--aura) 60%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklch, var(--aura) 40%, transparent),
-    0 0 2.5rem color-mix(in oklch, var(--aura) 35%, transparent);
-}
-
-.tela--bonus .progresso__barra {
-  background-color: var(--aura);
+  border-color: color-mix(in srgb, var(--destaque) 60%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--destaque) 40%, transparent),
+    0 0 2.5rem color-mix(in srgb, var(--destaque) 30%, transparent),
+    0 0 4rem color-mix(in srgb, var(--roxo-aura) 25%, transparent);
 }
 
 /* Celular deitado: opções lado a lado para caber na tela */

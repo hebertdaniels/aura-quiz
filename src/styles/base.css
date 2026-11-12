@@ -38,10 +38,20 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(
-    60% 50% at 50% 0%,
-    color-mix(in oklch, var(--cor-fundo, var(--aura)) var(--aura-intensidade), transparent),
-    transparent 70%
-  );
+      60% 50% at 50% 0%,
+      color-mix(in oklch, var(--cor-fundo, var(--aura)) var(--aura-intensidade), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 35% at 100% 100%,
+      color-mix(in oklch, var(--cor-fundo, var(--rosa-eletrico)) calc(var(--aura-intensidade) * 0.6), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 35% at 0% 85%,
+      color-mix(in oklch, var(--cor-fundo, var(--azul-cosmico)) calc(var(--aura-intensidade) * 0.5), transparent),
+      transparent 70%
+    );
   transition: background var(--transicao);
 }
 
