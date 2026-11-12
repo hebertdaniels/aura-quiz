@@ -1,0 +1,22 @@
+# ------------------------------------------------------------
+# Configuração do servidor (Apache, usado pela HostGator)
+# Este arquivo vai junto no pacote gerado pelo empacotar.bat.
+# ------------------------------------------------------------
+
+# 1. Sempre abre com https:// (o compartilhar e o modo offline só funcionam assim)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 2. Tipo certo para a "carteira de identidade" do app (instalar na tela inicial)
+AddType application/manifest+json .webmanifest
+
+# 3. O sw.js nunca fica guardado em cache, para as atualizações chegarem nos celulares
+<IfModule mod_headers.c>
+  <Files "sw.js">
+    Header set Cache-Control "no-cache"
+  </Files>
+</IfModule>

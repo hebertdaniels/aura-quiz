@@ -25,14 +25,23 @@ Os testes conferem se as regras do jogo continuam certas. Tudo verde = tudo func
 
 ## 🌐 Como publicar na internet
 
-Envie **todos os arquivos** da pasta para a hospedagem (menos a pasta `.git`).
-Depois, gere um QR Code com o endereço do site e pronto: qualquer pessoa joga pelo celular.
+1. Dê **dois cliques** em `empacotar.bat`. Ele cria o arquivo `aura-quiz-site.zip`
+   só com o que o site precisa (sem testes, sem servidor local, sem README).
+2. Na HostGator, abra o **cPanel → Gerenciador de Arquivos → `public_html`**.
+3. Clique em **Carregar**, envie o `aura-quiz-site.zip`, depois clique nele com o
+   botão direito e escolha **Extrair**. Se perguntar, aceite substituir os arquivos.
+4. Apague o `.zip` de dentro do `public_html` (ele não precisa ficar lá).
+5. Abra `https://meupeixe.com.br` para conferir.
+
+> O pacote inclui um arquivo escondido chamado `.htaccess`, que obriga o site a
+> abrir com `https://`. Para vê-lo no Gerenciador de Arquivos, ative
+> "Mostrar arquivos ocultos" nas Configurações.
 
 Na versão publicada, o app funciona **até sem internet** depois do primeiro acesso
 e pode ser **instalado na tela inicial** do celular, como um aplicativo de verdade.
 
-> Publicou uma versão nova? Abra `sw.js` e aumente o número em `VERSAO`
-> (ex.: `aura-quiz-v1` → `aura-quiz-v2`), senão os celulares continuam com a versão antiga.
+> Mudou alguma coisa no app? É só rodar o `empacotar.bat` de novo e repetir os passos.
+> Ele atualiza sozinho a versão do modo offline, para os celulares baixarem a novidade.
 
 ---
 
@@ -65,6 +74,8 @@ aura-quiz/
 ├── manifest.webmanifest    ← "carteira de identidade" do app (nome, ícone, cores)
 ├── sw.js                   ← faz o app funcionar sem internet
 ├── iniciar.bat             ← liga o servidor local
+├── empacotar.bat           ← gera o .zip para enviar à hospedagem
+├── .htaccess               ← configuração do servidor (força https)
 ├── assets/
 │   ├── brand/              ← logotipo e símbolo do infinito
 │   └── icons/              ← ícones do app (tela inicial do celular)
