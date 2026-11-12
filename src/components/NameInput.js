@@ -19,7 +19,7 @@ export function NameInput({ totalPrincipais, aoConfirmar }) {
     autocomplete: 'off',
     autocapitalize: 'words',
     enterkeyhint: 'go',
-    placeholder: 'Ex.: Lucas',
+    placeholder: 'Ex.: Zé da Manga',
     required: true,
     'data-foco': true,
   });
