@@ -7,7 +7,7 @@
 
 import { el } from './dom.js';
 
-const DURACAO_MS = 2000;
+const DURACAO_MS = 4000;
 
 export function SplashScreen({ aoTerminar }) {
   let terminou = false;
