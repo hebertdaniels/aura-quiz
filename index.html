@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Aura Quiz</title>
+    <meta name="description" content="Responda 10 perguntas + 1 bônus e descubra o nível da sua aura!" />
+
+    <!-- Cor da barra do navegador no celular -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+
+    <!-- PWA: permite instalar o app na tela inicial -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Aura Quiz" />
+
+    <!-- Design system: tokens → base → componentes -->
+    <link rel="stylesheet" href="src/styles/tokens.css" />
+    <link rel="stylesheet" href="src/styles/base.css" />
+    <link rel="stylesheet" href="src/styles/components.css" />
+
+    <script type="module" src="src/main.js"></script>
+  </head>
+  <body>
+    <main id="app">
+      <noscript>
+        <p>O Aura Quiz precisa do JavaScript ligado para funcionar.</p>
+      </noscript>
+    </main>
+
+    <!-- Se o arquivo for aberto direto (dois cliques no index.html), avisa como abrir certo. -->
+    <script>
+      if (location.protocol === 'file:') {
+        document.getElementById('app').innerHTML =
+          '<div class="card pilha" style="max-width:34rem">' +
+          '<h2 class="card__titulo">Quase lá! 🚀</h2>' +
+          '<p class="texto-suave">Navegadores bloqueiam apps abertos direto do arquivo. ' +
+          'Feche esta aba e dê dois cliques em <strong>iniciar.bat</strong>, na pasta do projeto.</p>' +
+          '</div>';
+      }
+    </script>
+  </body>
+</html>

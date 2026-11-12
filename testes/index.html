@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Testes do Aura Quiz</title>
+    <link rel="stylesheet" href="../src/styles/tokens.css" />
+    <link rel="stylesheet" href="../src/styles/base.css" />
+    <link rel="stylesheet" href="../src/styles/components.css" />
+    <style>
+      #app { display: block; max-width: 48rem; margin: 0 auto; }
+      li { padding: 0.25rem 0; font-size: 0.9375rem; }
+      .ok { color: #16a34a; }
+      .erro { color: #dc2626; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <main id="app" class="pilha">
+      <h1 class="card__titulo">🧪 Testes do Aura Quiz</h1>
+      <p class="texto-suave">
+        Testes automáticos conferem se as regras do jogo funcionam. Se alguém mudar o código e quebrar algo,
+        o teste fica vermelho na hora.
+      </p>
+      <p id="resumo" class="card"></p>
+      <ul id="lista" class="card"></ul>
+    </main>
+    <script type="module" src="./testes.js"></script>
+  </body>
+</html>
